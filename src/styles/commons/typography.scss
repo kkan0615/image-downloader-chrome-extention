@@ -1,0 +1,11 @@
+.c-text-first-uppercase {
+  text-transform: lowercase;
+  &::first-letter {
+    text-transform: uppercase;
+  }
+}
+
+.c-required-label:after {
+  content:" *";
+  color: red;
+}
