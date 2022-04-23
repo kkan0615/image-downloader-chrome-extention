@@ -11,7 +11,7 @@ export default defineConfig({
     }),
     quasar({
       sassVariables: 'src/styles/libs/quasar/variables.sass'
-    })
+    }),
   ],
   server: {
     open: true,
@@ -19,7 +19,16 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
-      // 'devextreme/ui': 'devextreme/esm/ui'
     },
   },
+  // build: {
+  //   rollupOptions: {
+  //     external: ['vue'],
+  //     output: {
+  //       globals: {
+  //         vue: 'Vue'
+  //       }
+  //     }
+  //   }
+  // }
 })

@@ -1,0 +1,24 @@
+{
+  "name": "Download images",
+  "version": "0.0.1",
+  "description": "Download all images on the page",
+  "manifest_version": 3,
+  "author": "Youngjin Kwak",
+  "permissions": [
+    "storage",
+    "tabs",
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": ["https://*/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action":{
+    "default_popup": "index.html"
+  },
+  "icons": {
+    "48": "icon_256.png",
+    "128": "icon_256.png"
+  }
+}

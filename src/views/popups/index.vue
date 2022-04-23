@@ -1,7 +1,7 @@
 <template>
   <q-layout
     view="lHh LpR lFf"
-    class="shadow-2 rounded-borders"
+    class="shadow-2 rounded-borders tw-w-96"
   >
     <q-page-container>
       <router-view />
@@ -16,3 +16,13 @@ export default {
 <script setup lang="ts">
 import { ref } from 'vue'
 </script>
+<style
+  lang="scss"
+>
+.popup {
+  width: 357px;
+  min-height: 600px;
+  height: 600px;
+  max-height: 600px;
+}
+</style>

@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "vite",
     "copy-manifest": "cp manifest.json dist/",
-    "build": "vue-tsc --noEmit && vite build && yarn run copy-manifest",
+    "copy-background": "cp background.js dist/",
+    "build": "vue-tsc --noEmit && vite build",
+    "build:watch": "vue-tsc --noEmit && vite build --watch",
     "preview": "vite preview"
   },
   "dependencies": {

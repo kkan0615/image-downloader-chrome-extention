@@ -6,6 +6,7 @@ module.exports = {
     'node': true,
     'jest': true,
     'vue/setup-compiler-macros': true,
+    'webextensions': true,
   },
   extends: [
     'plugin:vue/vue3-recommended',

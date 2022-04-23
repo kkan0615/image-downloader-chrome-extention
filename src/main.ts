@@ -22,3 +22,4 @@ app
   .use(createPinia())
   .use(router)
   .mount('#app')
+
