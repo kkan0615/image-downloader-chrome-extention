@@ -81,7 +81,6 @@ onMounted(async () => {
         let result: string[] = []
         imgElList.map(imgEl => {
           if (imgEl.src.split('.')[1] !== 'svg') {
-            console.log(imgEl)
             result.push(imgEl.src)
           }
         })
