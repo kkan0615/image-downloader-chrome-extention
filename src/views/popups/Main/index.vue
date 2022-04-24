@@ -2,6 +2,7 @@
   <q-page
     padding
   >
+    <!-- Check all checkbox -->
     <q-checkbox
       :model-value="isCheckAll"
       dense
@@ -14,40 +15,39 @@
     <div
       class="tw-grid tw-grid-cols-4 tw-gap-2"
     >
+      <!-- @TODO: Create to component -->
+      <!-- Image card container -->
       <div
         v-for="(imgEl, index) in imgElList"
         :key="`img-${index}`"
         class="tw-border tw-relative"
       >
-        <!--        <div-->
-        <!--          class="tw-absolute tw-w-full tw-h-20 tw-z-10 tw-bg-gray-500"-->
-        <!--        />-->
+        <!-- Checkbox -->
         <q-checkbox
           v-model="imgEl.isCheck"
           size="sm"
           dense
           class="tw-absolute tw-left-0 tw-top-0 tw-z-10"
         />
+        <!-- Image -->
         <q-img
           class="tw-h-20 tw-w-full tw-cursor-pointer"
           :src="imgEl.src"
           @click="() => imgEl.isCheck = !imgEl.isCheck"
         />
-        <q-btn
-          flat
-          dense
-          color="gray"
-          class="tw-absolute tw-right-0 tw-bottom-0 tw-z-10"
-          icon="open_in_full"
-          size="sm"
+        <!-- Expand button -->
+        <popup-main-card-dialog
+          :src="imgEl.src"
         />
       </div>
     </div>
+    <!-- Save button -->
     <q-btn
-      :disable="!isCheckAll"
+      :disable="!isCheckSome"
       class="tw-w-full q-mt-sm"
       color="primary"
       label="save"
+      :loading="isSaveBtnLoading"
       @click="onClickSaveBtn"
     />
   </q-page>
@@ -59,10 +59,15 @@ export default {
 </script>
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
+import { request } from '@/utils/libs/axios'
+import PopupMainCardDialog from '@/views/popups/Main/components/CardDialog.vue'
 
 const imgElList = ref<{ src: string; isCheck: boolean }[]>([])
+const isSaveBtnLoading = ref(false)
+const errorMsg = ref('')
 
 const isCheckAll = computed(() => imgElList.value.every(imgEl => imgEl.isCheck))
+const isCheckSome = computed(() => imgElList.value.some(imgEl => imgEl.isCheck))
 
 onMounted(async () => {
   const tabs = await chrome.tabs.query({ active: true, currentWindow: true })
@@ -75,9 +80,12 @@ onMounted(async () => {
         const imgElList = Array.from(document.body.getElementsByTagName('img'))
         let result: string[] = []
         imgElList.map(imgEl => {
-          console.log(imgEl.src)
-          result.push(imgEl.src)
+          if (imgEl.src.split('.')[1] !== 'svg') {
+            console.log(imgEl)
+            result.push(imgEl.src)
+          }
         })
+
         return result
       },
     })
@@ -101,17 +109,41 @@ const onClickCheckAllCheckBox = () => {
   })
 }
 
-const onClickSaveBtn = () => {
-  imgElList.value.map((imgEl, index) => {
-    if (imgEl.isCheck) {
-      const fileName = 'download' + index
-      const el = document.createElement('a')
-      el.setAttribute('href', imgEl.src)
-      el.setAttribute('download', fileName)
-      document.body.appendChild(el)
-      el.click()
-      el.remove()
-    }
-  })
+const downloadAsBlob = async (url: string) => {
+  try {
+    const res = await request.get(url, {
+      responseType: 'blob',
+    })
+
+    return res.data
+  } catch (e) {
+    console.error(e)
+    errorMsg.value = 'Fail to download'
+  }
+}
+
+const onClickSaveBtn = async () => {
+  try {
+    isSaveBtnLoading.value = true
+    await Promise.all(imgElList.value.map(async (imgEl, index) => {
+      if (imgEl.isCheck) {
+        /* Set the image name */
+        const fileName = 'download' + index
+        const linkEl = document.createElement('a')
+        /* Download image and change to blob */
+        const resBlob = await downloadAsBlob(imgEl.src)
+        const href = window.URL.createObjectURL(resBlob)
+        linkEl.setAttribute('href', href)
+        linkEl.setAttribute('download', `${fileName}.png`)
+        document.body.appendChild(linkEl)
+        linkEl.click()
+        linkEl.remove()
+      }
+    }))
+  } catch (e) {
+    console.error(e)
+  } finally {
+    isSaveBtnLoading.value = false
+  }
 }
 </script>
