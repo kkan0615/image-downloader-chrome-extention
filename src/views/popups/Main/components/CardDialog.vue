@@ -16,13 +16,14 @@
       <q-card
         class="tw-w-screen"
       >
-        <q-card-section class="row items-center q-pb-none">
-          <div class="text-h6">
-            Close icon
+        <q-card-section class="row items-center q-pb-none q-pt-sm">
+          <div>
+            Preview
           </div>
           <q-space />
           <q-btn
             v-close-popup
+            size="sm"
             icon="close"
             flat
             round
@@ -34,6 +35,7 @@
           class="tw-w-full"
         >
           <q-img
+            fit="contain"
             class="tw-h-full tw-w-full tw-cursor-pointer"
             :src="src"
           />

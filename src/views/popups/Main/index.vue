@@ -62,7 +62,7 @@ import { computed, onMounted, ref } from 'vue'
 import { request } from '@/utils/libs/axios'
 import PopupMainCardDialog from '@/views/popups/Main/components/CardDialog.vue'
 
-const imgElList = ref<{ src: string; isCheck: boolean }[]>([])
+const imgElList = ref<{ src: string; isCheck: boolean; fileExtension: string }[]>([])
 const isSaveBtnLoading = ref(false)
 const errorMsg = ref('')
 
@@ -78,10 +78,19 @@ onMounted(async () => {
       target: { tabId: tab.id, allFrames: true },
       func: () => {
         const imgElList = Array.from(document.body.getElementsByTagName('img'))
-        let result: string[] = []
-        imgElList.map(imgEl => {
-          if (imgEl.src.split('.')[1] !== 'svg') {
-            result.push(imgEl.src)
+        let result: { src: string; fileExtension: string }[] = []
+        imgElList.map(async imgEl => {
+          // console.log(imgEl.src, imgEl.width, imgEl.height)
+          /* File extension */
+          const splitByPoint = imgEl.src.split('.')
+          const fileExtension = imgEl.src.split('.')[splitByPoint.length - 1].split('?')[0]
+          if (fileExtension !== 'svg'
+            && imgEl.width >= 20 && imgEl.height >= 20
+          ) {
+            result.push({
+              src: imgEl.src,
+              fileExtension,
+            })
           }
         })
 
@@ -89,11 +98,12 @@ onMounted(async () => {
       },
     })
     imgElList.value = scriptResult[0].result
-      .filter((result: string) => !!result)
-      .map((result: string) => {
+      .filter((result: { src: string; fileExtension: string }) => !!result.src)
+      .map((result: { src: string; fileExtension: string }) => {
         return {
-          src: result,
+          src: result.src,
           isCheck: true,
+          fileExtension: result.fileExtension,
         }
       })
   }
@@ -104,6 +114,7 @@ const onClickCheckAllCheckBox = () => {
     return {
       src: imgEl.src,
       isCheck: !isCheckAll.value,
+      fileExtension: imgEl.fileExtension
     }
   })
 }
@@ -133,7 +144,7 @@ const onClickSaveBtn = async () => {
         const resBlob = await downloadAsBlob(imgEl.src)
         const href = window.URL.createObjectURL(resBlob)
         linkEl.setAttribute('href', href)
-        linkEl.setAttribute('download', `${fileName}.png`)
+        linkEl.setAttribute('download', `${fileName}.${imgEl.fileExtension}`)
         document.body.appendChild(linkEl)
         linkEl.click()
         linkEl.remove()

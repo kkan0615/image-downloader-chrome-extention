@@ -1,6 +1,6 @@
 {
   "name": "Download images",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Download all images on the page",
   "manifest_version": 3,
   "author": "Youngjin Kwak",
@@ -18,7 +18,7 @@
     "default_popup": "index.html"
   },
   "icons": {
-    "48": "icon_256.png",
-    "128": "icon_256.png"
+    "128": "128.png",
+    "256": "256.png"
   }
 }
