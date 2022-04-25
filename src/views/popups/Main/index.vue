@@ -15,31 +15,14 @@
     <div
       class="tw-grid tw-grid-cols-4 tw-gap-2"
     >
-      <!-- @TODO: Create to component -->
       <!-- Image card container -->
-      <div
+      <popup-main-image-card
         v-for="(imgEl, index) in imgElList"
         :key="`img-${index}`"
+        v-model:is-check="imgEl.isCheck"
+        :src="imgEl.src"
         class="tw-border tw-relative"
-      >
-        <!-- Checkbox -->
-        <q-checkbox
-          v-model="imgEl.isCheck"
-          size="sm"
-          dense
-          class="tw-absolute tw-left-0 tw-top-0 tw-z-10"
-        />
-        <!-- Image -->
-        <q-img
-          class="tw-h-20 tw-w-full tw-cursor-pointer"
-          :src="imgEl.src"
-          @click="() => imgEl.isCheck = !imgEl.isCheck"
-        />
-        <!-- Expand button -->
-        <popup-main-card-dialog
-          :src="imgEl.src"
-        />
-      </div>
+      />
     </div>
     <!-- Save button -->
     <q-btn
@@ -60,7 +43,7 @@ export default {
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { request } from '@/utils/libs/axios'
-import PopupMainCardDialog from '@/views/popups/Main/components/CardDialog.vue'
+import PopupMainImageCard from '@/views/popups/Main/components/ImageCard.vue'
 
 const imgElList = ref<{ src: string; isCheck: boolean; fileExtension: string }[]>([])
 const isSaveBtnLoading = ref(false)
@@ -80,10 +63,12 @@ onMounted(async () => {
         const imgElList = Array.from(document.body.getElementsByTagName('img'))
         let result: { src: string; fileExtension: string }[] = []
         imgElList.map(async imgEl => {
-          // console.log(imgEl.src, imgEl.width, imgEl.height)
           /* File extension */
           const splitByPoint = imgEl.src.split('.')
           const fileExtension = imgEl.src.split('.')[splitByPoint.length - 1].split('?')[0]
+          /**
+            Disallow: check the readme.md
+           */
           if (fileExtension !== 'svg'
             && imgEl.width >= 20 && imgEl.height >= 20
           ) {
@@ -97,8 +82,11 @@ onMounted(async () => {
         return result
       },
     })
+    /* Add to imgElList */
     imgElList.value = scriptResult[0].result
+    /* Src is required */
       .filter((result: { src: string; fileExtension: string }) => !!result.src)
+    /* Make all the data checked */
       .map((result: { src: string; fileExtension: string }) => {
         return {
           src: result.src,

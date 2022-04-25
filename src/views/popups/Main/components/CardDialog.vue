@@ -38,7 +38,13 @@
             fit="contain"
             class="tw-h-full tw-w-full tw-cursor-pointer"
             :src="src"
-          />
+          >
+            <template #error>
+              <div class="absolute-full flex flex-center bg-negative text-white">
+                Fail to load
+              </div>
+            </template>
+          </q-img>
         </q-card-section>
       </q-card>
     </q-dialog>
