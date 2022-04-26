@@ -18,7 +18,7 @@
       >
         <q-card-section class="row items-center q-pb-none q-pt-sm">
           <div>
-            Preview
+            {{ i18nPreview }}
           </div>
           <q-space />
           <q-btn
@@ -41,7 +41,7 @@
           >
             <template #error>
               <div class="absolute-full flex flex-center bg-negative text-white">
-                Fail to load
+                {{ i18nFailToLoad }}
               </div>
             </template>
           </q-img>
@@ -56,9 +56,12 @@ export default {
 }
 </script>
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 const isOpen = ref(false)
+
+const i18nPreview = computed(() => chrome.i18n.getMessage('preview'))
+const i18nFailToLoad = computed(() => chrome.i18n.getMessage('failToLoad'))
 
 const props = defineProps({
   src: {

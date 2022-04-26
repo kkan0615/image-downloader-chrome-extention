@@ -6,7 +6,7 @@
     <q-checkbox
       :model-value="isCheckAll"
       dense
-      label="Check all"
+      :label="i18nCheckAllBtn"
       @click="onClickCheckAllCheckBox"
     />
     <q-separator
@@ -29,7 +29,7 @@
       :disable="!isCheckSome"
       class="tw-w-full q-mt-sm"
       color="primary"
-      label="save"
+      :label="i18nSaveBtn"
       :loading="isSaveBtnLoading"
       @click="onClickSaveBtn"
     />
@@ -51,6 +51,9 @@ const errorMsg = ref('')
 
 const isCheckAll = computed(() => imgElList.value.every(imgEl => imgEl.isCheck))
 const isCheckSome = computed(() => imgElList.value.some(imgEl => imgEl.isCheck))
+
+const i18nSaveBtn = computed(() => chrome.i18n.getMessage('saveBtn'))
+const i18nCheckAllBtn = computed(() => chrome.i18n.getMessage('checkAllBtn'))
 
 onMounted(async () => {
   const tabs = await chrome.tabs.query({ active: true, currentWindow: true })

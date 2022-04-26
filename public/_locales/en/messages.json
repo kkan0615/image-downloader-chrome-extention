@@ -1,0 +1,21 @@
+{
+  "appTitle": {
+    "message": "Download Images"
+  },
+  "appDesc": {
+    "message": "Download all the images on the page!",
+    "description": "Download all the images on the page!"
+  },
+  "preview": {
+    "message": "preview"
+  },
+  "failToLoad": {
+    "message": "fail to load"
+  },
+  "saveBtn": {
+    "message": "save"
+  },
+  "checkAllBtn": {
+    "message": "check all"
+  }
+}
