@@ -2,13 +2,33 @@
   <q-page
     padding
   >
-    <!-- Check all checkbox -->
-    <q-checkbox
-      :model-value="isCheckAll"
-      dense
-      :label="i18nCheckAllBtn"
-      @click="onClickCheckAllCheckBox"
-    />
+    <!-- Header -->
+    <div
+      class="tw-flex tw-items-center"
+    >
+      <!-- Check all checkbox -->
+      <q-checkbox
+        :model-value="isCheckAll"
+        dense
+        :label="i18nCheckAllBtn"
+        @click="onClickCheckAllCheckBox"
+      />
+      <div
+        class="tw-ml-auto"
+      >
+        <!-- Github link -->
+        <q-avatar
+          class="tw-cursor-pointer"
+          size="24px"
+          @click="onClickGithubLink"
+        >
+          <img
+            class="tw-w-full tw-h-full"
+            src="@/assets/githubs/32.png"
+          >
+        </q-avatar>
+      </div>
+    </div>
     <q-separator
       class="q-my-sm"
     />
@@ -146,5 +166,10 @@ const onClickSaveBtn = async () => {
   } finally {
     isSaveBtnLoading.value = false
   }
+}
+
+const onClickGithubLink = () => {
+  /* Create new tab with link */
+  chrome.tabs.create({ url: 'https://github.com/kkan0615/image-downloader-chrome-extention' })
 }
 </script>

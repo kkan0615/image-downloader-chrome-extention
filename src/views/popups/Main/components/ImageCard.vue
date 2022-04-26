@@ -16,7 +16,7 @@
     >
       <template #error>
         <div class="absolute-full flex flex-center bg-negative text-white">
-          Fail to load
+          {{ i18nFailToLoad }}
         </div>
       </template>
     </q-img>
@@ -33,6 +33,7 @@ export default {
 </script>
 <script setup lang="ts">
 import PopupMainCardDialog from '@/views/popups/Main/components/CardDialog.vue'
+import { computed } from 'vue'
 
 const props = defineProps({
   src: {
@@ -48,6 +49,8 @@ const props = defineProps({
 })
 
 const emits = defineEmits(['update:src', 'update:isCheck'])
+
+const i18nFailToLoad = computed(() => chrome.i18n.getMessage('failToLoad'))
 
 const updateIsCheck = (bool: boolean) => {
   emits('update:isCheck', bool)
