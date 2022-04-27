@@ -1,59 +1,71 @@
 <template>
-  <q-page
-    padding
-  >
-    <!-- Header -->
-    <div
-      class="tw-flex tw-items-center"
+  <div>
+    <q-page
+      padding
     >
-      <!-- Check all checkbox -->
-      <q-checkbox
-        :model-value="isCheckAll"
-        dense
-        :label="i18nCheckAllBtn"
-        @click="onClickCheckAllCheckBox"
+      <!-- Header -->
+      <div
+        class="tw-flex tw-items-center"
+      >
+        <!-- Check all checkbox -->
+        <q-checkbox
+          :model-value="isCheckAll"
+          dense
+          :label="i18nCheckAllBtn"
+          @click="onClickCheckAllCheckBox"
+        />
+        <div
+          class="tw-ml-auto"
+        >
+          <!-- Github link -->
+          <q-avatar
+            class="tw-cursor-pointer"
+            size="24px"
+            @click="onClickGithubLink"
+          >
+            <img
+              class="tw-w-full tw-h-full"
+              src="@/assets/githubs/32.png"
+              alt="github"
+            >
+          </q-avatar>
+        </div>
+      </div>
+      <q-separator
+        class="q-my-sm"
       />
       <div
-        class="tw-ml-auto"
+        class="tw-grid tw-grid-cols-4 tw-gap-2"
       >
-        <!-- Github link -->
-        <q-avatar
-          class="tw-cursor-pointer"
-          size="24px"
-          @click="onClickGithubLink"
-        >
-          <img
-            class="tw-w-full tw-h-full"
-            src="@/assets/githubs/32.png"
-          >
-        </q-avatar>
+        <!-- Image card container -->
+        <popup-main-image-card
+          v-for="(imgEl, index) in imgElList"
+          :key="`img-${index}`"
+          v-model:is-check="imgEl.isCheck"
+          :src="imgEl.src"
+        />
       </div>
-    </div>
-    <q-separator
-      class="q-my-sm"
-    />
-    <div
-      class="tw-grid tw-grid-cols-4 tw-gap-2"
-    >
-      <!-- Image card container -->
-      <popup-main-image-card
-        v-for="(imgEl, index) in imgElList"
-        :key="`img-${index}`"
-        v-model:is-check="imgEl.isCheck"
-        :src="imgEl.src"
-        class="tw-border tw-relative"
-      />
-    </div>
-    <!-- Save button -->
-    <q-btn
-      :disable="!isCheckSome"
-      class="tw-w-full q-mt-sm"
-      color="primary"
-      :label="i18nSaveBtn"
-      :loading="isSaveBtnLoading"
-      @click="onClickSaveBtn"
-    />
-  </q-page>
+    </q-page>
+    <q-footer>
+      <q-card
+        square
+      >
+        <q-card-section
+          class="q-pa-sm"
+        >
+          <!-- Save button -->
+          <q-btn
+            :disable="!isCheckSome"
+            class="tw-w-full"
+            color="primary"
+            :label="i18nSaveBtn"
+            :loading="isSaveBtnLoading"
+            @click="onClickSaveBtn"
+          />
+        </q-card-section>
+      </q-card>
+    </q-footer>
+  </div>
 </template>
 <script lang="ts">
 export default {

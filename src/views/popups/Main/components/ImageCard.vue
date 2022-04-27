@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div
+    class="tw-border tw-relative tw-h-20"
+  >
     <!-- Checkbox -->
     <q-checkbox
       :model-value="isCheck"
@@ -8,9 +10,15 @@
       class="tw-absolute tw-left-0 tw-top-0 tw-z-10"
       @update:model-value="updateIsCheck"
     />
+    <!-- Overlay div -->
+    <div
+      v-if="isCheck"
+      class="tw-absolute tw-w-full tw-h-full tw-bg-gray-500 tw-z-10 tw-opacity-30 tw-cursor-pointer"
+      @click="() => updateIsCheck(!isCheck)"
+    />
     <!-- Image -->
     <q-img
-      class="tw-h-20 tw-w-full tw-cursor-pointer"
+      class="tw-h-full tw-w-full tw-cursor-pointer"
       :src="src"
       @click="() => updateIsCheck(!isCheck)"
     >

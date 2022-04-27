@@ -1,9 +1,10 @@
 <template>
   <div>
+    <!-- Expand button -->
     <q-btn
       flat
       dense
-      color="gray"
+      color="grey"
       class="tw-absolute tw-right-0 tw-bottom-0 tw-z-10"
       icon="open_in_full"
       size="sm"
@@ -16,6 +17,7 @@
       <q-card
         class="tw-w-screen"
       >
+        <!-- Dialog Header -->
         <q-card-section class="row items-center q-pb-none q-pt-sm">
           <div>
             {{ i18nPreview }}
@@ -30,13 +32,12 @@
             dense
           />
         </q-card-section>
-
+        <!-- Dialog Image -->
         <q-card-section
           class="tw-w-full"
         >
           <q-img
-            fit="contain"
-            class="tw-h-full tw-w-full tw-cursor-pointer"
+            class="tw-h-full tw-max-w-full tw-cursor-pointer"
             :src="src"
           >
             <template #error>
@@ -66,7 +67,8 @@ const i18nFailToLoad = computed(() => chrome.i18n.getMessage('failToLoad'))
 const props = defineProps({
   src: {
     type: String,
-
+    required: true,
+    default: '',
   }
 })
 </script>

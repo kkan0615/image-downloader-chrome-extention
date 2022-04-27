@@ -21,8 +21,6 @@ import { ref } from 'vue'
 >
 .popup {
   width: 400px;
-  min-height: 600px;
   height: 600px;
-  max-height: 600px;
 }
 </style>
