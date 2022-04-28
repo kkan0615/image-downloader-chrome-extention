@@ -76,14 +76,16 @@ export default {
 import { computed, onMounted, ref } from 'vue'
 import { request } from '@/utils/libs/axios'
 import PopupMainImageCard from '@/views/popups/Main/components/ImageCard.vue'
+import { ImgCard, ImgCardInScriptResult } from '@/types/models/imgCard'
 
-const imgElList = ref<{ src: string; isCheck: boolean; fileExtension: string }[]>([])
+const imgElList = ref<ImgCard[]>([])
 const isSaveBtnLoading = ref(false)
 const errorMsg = ref('')
 
 const isCheckAll = computed(() => imgElList.value.every(imgEl => imgEl.isCheck))
 const isCheckSome = computed(() => imgElList.value.some(imgEl => imgEl.isCheck))
 
+/* I18n (localizing) */
 const i18nSaveBtn = computed(() => chrome.i18n.getMessage('saveBtn'))
 const i18nCheckAllBtn = computed(() => chrome.i18n.getMessage('checkAllBtn'))
 
@@ -120,9 +122,9 @@ onMounted(async () => {
     /* Add to imgElList */
     imgElList.value = scriptResult[0].result
     /* Src is required */
-      .filter((result: { src: string; fileExtension: string }) => !!result.src)
+      .filter((result: ImgCardInScriptResult) => !!result.src)
     /* Make all the data checked */
-      .map((result: { src: string; fileExtension: string }) => {
+      .map((result: ImgCardInScriptResult) => {
         return {
           src: result.src,
           isCheck: true,
@@ -163,18 +165,27 @@ const onClickSaveBtn = async () => {
         /* Set the image name */
         const fileName = 'download' + index
         const linkEl = document.createElement('a')
-        /* Download image and change to blob */
+        /* Download image from server and change to blob */
         const resBlob = await downloadAsBlob(imgEl.src)
-        const href = window.URL.createObjectURL(resBlob)
-        linkEl.setAttribute('href', href)
-        linkEl.setAttribute('download', `${fileName}.${imgEl.fileExtension}`)
-        document.body.appendChild(linkEl)
-        linkEl.click()
-        linkEl.remove()
+        // const href = window.URL.createObjectURL(resBlob)
+        /* Set the link and download */
+        await chrome.downloads.download({
+          url: imgEl.src,
+          // filename: `${fileName}.${imgEl.fileExtension}`,
+          // saveAs: true,
+          conflictAction: 'uniquify',
+        })
+        // @TODO: If link element download method is required, use following cods
+        // linkEl.setAttribute('href', href)
+        // linkEl.setAttribute('download', `${fileName}.${imgEl.fileExtension}`)
+        // document.body.appendChild(linkEl)
+        // linkEl.click()
+        // linkEl.remove()
       }
     }))
   } catch (e) {
     console.error(e)
+    alert(e) // @TODO: Change the way that mention an error
   } finally {
     isSaveBtnLoading.value = false
   }

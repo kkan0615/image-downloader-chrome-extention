@@ -12,6 +12,11 @@ export const popupRoutes: RouteRecordRaw[] = [
         name: 'PopupMain',
         component: () => import('@/views/popups/Main/index.vue'),
       },
+      {
+        path: 'setting',
+        name: 'PopupSetting',
+        component: () => import('@/views/popups/Setting/index.vue'),
+      },
     ]
   },
 ]
