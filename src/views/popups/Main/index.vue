@@ -163,10 +163,10 @@ const onClickSaveBtn = async () => {
     await Promise.all(imgElList.value.map(async (imgEl, index) => {
       if (imgEl.isCheck) {
         /* Set the image name */
-        const fileName = 'download' + index
-        const linkEl = document.createElement('a')
+        // const fileName = 'download' + index
+        // const linkEl = document.createElement('a')
         /* Download image from server and change to blob */
-        const resBlob = await downloadAsBlob(imgEl.src)
+        // const resBlob = await downloadAsBlob(imgEl.src)
         // const href = window.URL.createObjectURL(resBlob)
         /* Set the link and download */
         await chrome.downloads.download({
