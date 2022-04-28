@@ -162,20 +162,21 @@ const onClickSaveBtn = async () => {
     isSaveBtnLoading.value = true
     await Promise.all(imgElList.value.map(async (imgEl, index) => {
       if (imgEl.isCheck) {
-        /* Set the image name */
-        // const fileName = 'download' + index
-        // const linkEl = document.createElement('a')
-        /* Download image from server and change to blob */
-        // const resBlob = await downloadAsBlob(imgEl.src)
-        // const href = window.URL.createObjectURL(resBlob)
-        /* Set the link and download */
+        /* Download the file */
         await chrome.downloads.download({
           url: imgEl.src,
-          // filename: `${fileName}.${imgEl.fileExtension}`,
-          // saveAs: true,
+          // filename: `${fileName}.${imgEl.f ileExtension}`, // set the file name
+          // saveAs: true, // Prompt download
           conflictAction: 'uniquify',
         })
-        // @TODO: If link element download method is required, use following cods
+        // @TODO: If link element download method is required, use following codes
+        // /* Set the image name */
+        // const fileName = 'download' + index
+        // const linkEl = document.createElement('a')
+        // /* Download image from server and change to blob */
+        // const resBlob = await downloadAsBlob(imgEl.src)
+        // const href = window.URL.createObjectURL(resBlob)
+        // /* Set the link and download */
         // linkEl.setAttribute('href', href)
         // linkEl.setAttribute('download', `${fileName}.${imgEl.fileExtension}`)
         // document.body.appendChild(linkEl)
