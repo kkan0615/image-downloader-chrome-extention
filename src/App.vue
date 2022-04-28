@@ -8,8 +8,13 @@ export default {
 </script>
 <script setup lang="ts">
 import { useQuasar } from 'quasar'
+import { useSettingStore } from '@/store/setting'
 
 const $q = useQuasar()
+const settingStore  = useSettingStore()
+
+/* Init the all setting */
+settingStore.initSetting()
 
 // Dark mode
 if (window.matchMedia('(prefers-color-scheme: dark)').matches) {

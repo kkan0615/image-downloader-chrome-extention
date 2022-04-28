@@ -1,4 +1,3 @@
-export interface Setting {
-  isDark: boolean
-  prefix?: string
+export interface FileSetting {
+  saveAs: boolean
 }

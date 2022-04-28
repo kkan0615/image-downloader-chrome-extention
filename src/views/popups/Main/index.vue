@@ -19,7 +19,7 @@
         >
           <!-- Github link -->
           <q-avatar
-            class="tw-cursor-pointer"
+            class="tw-cursor-pointer dark:tw-bg-white"
             size="24px"
             @click="onClickGithubLink"
           >
@@ -30,6 +30,14 @@
             >
           </q-avatar>
         </div>
+        <!-- To the setting page -->
+        <q-btn
+          dense
+          round
+          flat
+          icon="settings"
+          :to="{ name: 'PopupSetting' }"
+        />
       </div>
       <q-separator
         class="q-my-sm"
@@ -166,7 +174,7 @@ const onClickSaveBtn = async () => {
         await chrome.downloads.download({
           url: imgEl.src,
           // filename: `${fileName}.${imgEl.f ileExtension}`, // set the file name
-          // saveAs: true, // Prompt download
+          saveAs: false, // Prompt download
           conflictAction: 'uniquify',
         })
         // @TODO: If link element download method is required, use following codes
