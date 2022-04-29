@@ -19,8 +19,11 @@ export default {
 <style
   lang="scss"
 >
+$popup-max-height: 600px;
+$popup-width: 400px;
+
 .popup {
-  width: 400px;
-  height: 600px;
+  width: $popup-width;
+  max-height: $popup-max-height;
 }
 </style>

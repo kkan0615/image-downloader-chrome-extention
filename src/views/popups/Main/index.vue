@@ -85,7 +85,12 @@ import { computed, onMounted, ref } from 'vue'
 import { request } from '@/utils/libs/axios'
 import PopupMainImageCard from '@/views/popups/Main/components/ImageCard.vue'
 import { ImgCard, ImgCardInScriptResult } from '@/types/models/imgCard'
+import { useSettingStore } from '@/store/setting'
+import { storeToRefs } from 'pinia'
 
+const settingStore = useSettingStore()
+
+const { fileSetting } = storeToRefs(settingStore)
 const imgElList = ref<ImgCard[]>([])
 const isSaveBtnLoading = ref(false)
 const errorMsg = ref('')
@@ -152,18 +157,19 @@ const onClickCheckAllCheckBox = () => {
   })
 }
 
-const downloadAsBlob = async (url: string) => {
-  try {
-    const res = await request.get(url, {
-      responseType: 'blob',
-    })
-
-    return res.data
-  } catch (e) {
-    console.error(e)
-    errorMsg.value = 'Fail to download'
-  }
-}
+// @TODO: If link element download method is required, use following codes
+// const downloadAsBlob = async (url: string) => {
+//   try {
+//     const res = await request.get(url, {
+//       responseType: 'blob',
+//     })
+//
+//     return res.data
+//   } catch (e) {
+//     console.error(e)
+//     errorMsg.value = 'Fail to download'
+//   }
+// }
 
 const onClickSaveBtn = async () => {
   try {
@@ -173,8 +179,7 @@ const onClickSaveBtn = async () => {
         /* Download the file */
         await chrome.downloads.download({
           url: imgEl.src,
-          // filename: `${fileName}.${imgEl.f ileExtension}`, // set the file name
-          saveAs: false, // Prompt download
+          saveAs: fileSetting.value.saveAs, // Prompt download
           conflictAction: 'uniquify',
         })
         // @TODO: If link element download method is required, use following codes
