@@ -1,4 +1,6 @@
 # 현재 페이지의 모든 이미지를 저장하세요!
+[english](https://github.com/kkan0615/image-downloader-chrome-extention/blob/main/README.md)
+<br>
 아직 스토어에 등록하지 않았습니다 ㅠㅠ <br>
 빠른시일내에 등록하도록 하겠습니다.
 
